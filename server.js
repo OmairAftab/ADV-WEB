@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from "cors";
 import cookieParser from 'cookie-parser';
-dotenv.config();
+dotenv.config(); //This loads variables from .env file.
 
 
 // SEPARATE DB FILE BNANE KI BJAE YAHAN E CONNECTION KR DIYA
@@ -22,8 +22,8 @@ mongoose.connect(process.env.MONGODB_URL)
 const app = express();
 app.use(cors({credentials:true, origin: process.env.FRONTEND_URL || 'http://localhost:5173'}));
 
-app.use(express.json()); //used when sending json data in raw in post and put methods in postman 
-app.use(cookieParser());
+app.use(express.json()); //This converts incoming JSON data into JavaScript object.
+app.use(cookieParser()); //Used to read cookies from browser.
 
 
 

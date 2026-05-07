@@ -8,7 +8,7 @@ import connectDB from '../db.js';
 // FUNCTION FOR SIGNUP
 export const signup= async (req,res)=>{
 
-    await connectDB();   //This is exactly what is needed for Vercel (serverless)
+    await connectDB();   
 
     const {username,email,password} =req.body;
 
@@ -53,7 +53,7 @@ export const signup= async (req,res)=>{
 //FUNCTIOn FOR signin OF USERS
 export const signin= async (req,res)=>{
 
-    await connectDB();    //This is exactly what is needed for Vercel (serverless)
+    await connectDB();    
 
     const {email,password}=req.body;
 
@@ -84,15 +84,11 @@ export const signin= async (req,res)=>{
         //now we have to send this token to user in res and  we will send bby cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
         });
 
         
-    //    Updated authController.js so /api/auth/signin returns user data (without password), enabling avatar display for normal sign-in too.
-        const { password: userPassword, ...userData } = user._doc;
-        return res.status(200).json({ success: true, message: "User logged in successfully", user: userData });
+        return res.status(200).json({ success: true, message: "User logged in successfully"});
 
 
 
@@ -115,7 +111,7 @@ export const signin= async (req,res)=>{
 export const googleController = async(req,res)=>{
     try{
 
-        await connectDB();    //This is exactly what is needed for Vercel (serverless)
+        await connectDB();    
 
         const { name, email, photo } = req.body;
 
@@ -132,8 +128,6 @@ export const googleController = async(req,res)=>{
             //now we have to send this token to user in res and  we will send bby cookie
             res.cookie('token', token, {
                httpOnly: true,
-               secure: process.env.NODE_ENV === 'production',
-               sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
         });
 
@@ -154,8 +148,6 @@ export const googleController = async(req,res)=>{
             const token=jwt.sign({id: newUser._id},process.env.JWT_SECRET);
             res.cookie('token', token, {
                httpOnly: true,
-               secure: process.env.NODE_ENV === 'production',
-               sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
         });
 
